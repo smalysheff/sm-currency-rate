@@ -1,0 +1,43 @@
+server:
+  port: 8082
+
+app:
+  rest:
+    api:
+      prefix: /api
+
+management:
+  server:
+    port: 8092
+  endpoints:
+    enabled-by-default: false
+  endpoint:
+    health:
+      enabled: true
+      probes:
+        enabled: true
+
+#'dev' profile only
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+# url интеграции с sm-cbr-rate
+cbr-rate-client:
+  url: http://localhost:8081/api/v1/currency-rate
+
+
+#'prod' profile only
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+# url интеграции с sm-cbr-rate
+cbr-rate-client:
+  url: http://localhost:8081/api/v1/currency-rate
