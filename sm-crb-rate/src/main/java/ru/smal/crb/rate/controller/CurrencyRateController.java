@@ -1,0 +1,32 @@
+package ru.smal.crb.rate.controller;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import ru.smal.crb.rate.model.CurrencyRate;
+import ru.smal.crb.rate.service.CurrencyRateService;
+
+import java.time.LocalDate;
+
+@Slf4j
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("${app.rest.api.prefix}/v1")
+public class CurrencyRateController {
+
+    private final CurrencyRateService service;
+
+    @GetMapping("/currency-rate/{currency}/{date}")
+    public CurrencyRate getCurrencyRate(@PathVariable String currency,
+                                        @DateTimeFormat(pattern = "dd-MM-yyyy") @PathVariable LocalDate date) {
+        log.info("getCurrencyRate, currency: {}, date: {}", currency, date);
+
+        CurrencyRate rate = service.getCurrencyRate(currency, date);
+        log.info("rate: {}", rate);
+        return rate;
+    }
+}
